@@ -1,0 +1,48 @@
+class MedianFinder {
+public:
+    multiset<int> low;
+    multiset<int> high;
+    int size = 0;
+
+    MedianFinder() {}
+
+    void addNum(int num) {
+        size++;
+
+        if (low.empty())low.insert(num);
+        else if (high.empty()) high.insert(num);
+        else {
+            auto h = *high.begin();
+            if (num > h) {
+                high.erase(high.begin());
+                high.insert(num);
+                low.insert(h);
+            } else {
+                low.insert(num);
+            }
+        }
+
+        //  balanced
+        if (low.size() > (size / 2)) {
+            high.insert(*low.rbegin());
+            low.erase(--low.end()); 
+        }
+
+        if (high.size() > (size / 2)) {
+            low.insert(*high.begin());
+            high.erase(high.begin()); 
+        }
+    }
+
+    double findMedian() {
+        if (size % 2) return *low.rbegin();
+        
+        return double(*low.rbegin() + *high.begin()) / 2.0;
+    }
+};
+
+
+
+
+// two set 
+// both will store half element
