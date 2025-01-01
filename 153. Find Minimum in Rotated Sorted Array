@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int findMin(vector<int>& a) {
+        int l = 0, h = a.size() - 1;
+        while (h-l>1) {
+            int mid = (h+l) / 2;
+            if (a[mid] > a[h])l = mid+1;
+            else h = mid;
+        }
+        return min(a[l],a[h]);
+    }
+};
